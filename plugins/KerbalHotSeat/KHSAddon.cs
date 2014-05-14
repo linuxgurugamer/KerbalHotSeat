@@ -25,7 +25,7 @@ namespace KerbalHotSeat
 
         private double lastBurn = 0;
         private double lastMovement = 0;
-        private double minTimeBetweenMovements = 300;
+        private double minTimeBetweenMovements = 300; 
         private System.Random random; // Random number generator
         private bool refreshPortraitsPending = false;
         
@@ -113,14 +113,21 @@ namespace KerbalHotSeat
 
              //Debug.Log("Before moving KerbalGUIManager.ActiveCrew.Count:" + KerbalGUIManager.ActiveCrew.Count);
 
+             // If CLS is not installed then just bug out
+             if (!CLSClient.CLSInstalled)
+             {
+                 Debug.LogWarning("Not moving kerbals as the CLS mod is not installed");
+                 return;
+             }
+             
 
-             CLSVessel activeVessel = CLSAddon.Instance.Vessel;
+             ICLSVessel activeVessel = CLSClient.GetCLS().Vessel;
 
              if(activeVessel.Spaces.Count >0)
              {
-                 List<CLSSpace> crewedSpaces = new List<CLSSpace>(activeVessel.Spaces.Count);
+                 List<ICLSSpace> crewedSpaces = new List<ICLSSpace>(activeVessel.Spaces.Count);
 
-                 foreach (CLSSpace s in activeVessel.Spaces)
+                 foreach (ICLSSpace s in activeVessel.Spaces)
                  {
                      if (s.Crew.Count > 0)
                      {
@@ -131,11 +138,11 @@ namespace KerbalHotSeat
                  // now we have got a list of crewed spaces - pick one at random
                  if (crewedSpaces.Count > 0)
                  {
-                     CLSSpace pickedSpace = crewedSpaces[this.random.Next(crewedSpaces.Count)];
+                     ICLSSpace pickedSpace = crewedSpaces[this.random.Next(crewedSpaces.Count)];
                      
                      // Now pick one of the crew in that space at random!
                      
-                     CLSKerbal pickedKerbel = pickedSpace.Crew[this.random.Next(pickedSpace.Crew.Count)];
+                     ICLSKerbal pickedKerbel = pickedSpace.Crew[this.random.Next(pickedSpace.Crew.Count)];
 
                      // Move move the kerbal somewhere else
                      MoveKerbal(pickedKerbel);
@@ -146,12 +153,12 @@ namespace KerbalHotSeat
 
          }
 
-         private void MoveKerbal(CLSKerbal k)
+         private void MoveKerbal(ICLSKerbal k)
          {
              // Debug.Log("MoveKerbal");
              // If there is only one seat in this space, then our friend is not going anywhere!
-             CLSPart temppart = k.Part;
-             CLSSpace s = temppart.Space;
+             ICLSPart temppart = k.Part;
+             ICLSSpace s = temppart.Space;
              
              if (null == s)
              {
@@ -160,7 +167,6 @@ namespace KerbalHotSeat
 
              int maxCrew = s.MaxCrew;
 
-
              if (k.Part.Space.MaxCrew > 1)
              {
                  //Debug.Log("vessel has more than 1 seat");
@@ -168,12 +174,12 @@ namespace KerbalHotSeat
                  List<PartSeat> listSeats = new List<PartSeat>();
 
                  // There are other seats in the space that our chosen kerbal is in. Pick one of them at random, and then we can arrange the swap.
-                 foreach (Part p in k.Part.Space.Parts)
+                 foreach (ICLSPart p in k.Part.Space.Parts)
                  {
-                     for (int counter = 0; counter < p.CrewCapacity; counter++)
+                     for (int counter = 0; counter < p.Part.CrewCapacity; counter++)
                      {
                          //Debug.Log("Adding " + p.partInfo.title + " seat "+counter);
-                         listSeats.Add(new PartSeat(p, counter));
+                         listSeats.Add(new PartSeat(p.Part, counter));
                      }
                  }
 
@@ -193,11 +199,11 @@ namespace KerbalHotSeat
              }
          }
 
-         private bool SwapKerbals(CLSKerbal k, Part targetPart, int targetSeatIdx)
+         private bool SwapKerbals(ICLSKerbal k, Part targetPart, int targetSeatIdx)
          {
              //Debug.Log("SwapKerbals");
 
-             if (((ProtoCrewMember)k).seat.part == targetPart && ((ProtoCrewMember)k).seatIdx == targetSeatIdx)
+             if (k.Kerbal.seat.part == targetPart && k.Kerbal.seatIdx == targetSeatIdx)
              {
                  // Nothing to do because the choosen target seat is where the kerbal is 
 
@@ -208,11 +214,11 @@ namespace KerbalHotSeat
              else
              {
                  //Debug.Log("moving keral to somewhere other than his own seat");
-                 ProtoCrewMember sourceKerbal = k;
+                 ProtoCrewMember sourceKerbal = k.Kerbal;
                  // Find out if a kerbal is already sitting in the target seat
                  // ProtoCrewMember targetKerbal = targetSeat.part.vessel.GetVesselCrew().Find(c => (c.seat.part == targetSeat.part) && (c.seatIdx == targetSeat.seat));
 
-                 Part sourcePart = k.Part;
+                 Part sourcePart = k.Part.Part;
                  ProtoCrewMember targetKerbal = targetPart.internalModel.seats[targetSeatIdx].crew; // TODO I am unsure what will happen if a pod does not have an internal model.
                  int sourceSeatIdx = sourceKerbal.seatIdx;
 
