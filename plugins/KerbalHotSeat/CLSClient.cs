@@ -13,18 +13,17 @@ namespace KerbalHotSeat
 
         public static ConnectedLivingSpace.ICLSAddon GetCLS()
         {
-            if(null == _CLS)
+            // Just get the CLS Addon object everytime - it somehow seems to have gone stale. Does this fix the problem?
+            Type CLSAddonType = AssemblyLoader.loadedAssemblies.SelectMany(a => a.assembly.GetExportedTypes()).SingleOrDefault(t => t.FullName == "ConnectedLivingSpace.CLSAddon");
+            if (CLSAddonType != null)
             {
-                Type CLSAddonType = AssemblyLoader.loadedAssemblies.SelectMany(a => a.assembly.GetExportedTypes()).SingleOrDefault(t => t.FullName == "ConnectedLivingSpace.CLSAddon");
-                if (CLSAddonType != null)
-                {
-                    object realCLSAddon = CLSAddonType.GetProperty("Instance", BindingFlags.Public | BindingFlags.Static).GetValue(null, null);
-                    _CLS =   (ConnectedLivingSpace.ICLSAddon)realCLSAddon;
-                }
+                object realCLSAddon = CLSAddonType.GetProperty("Instance", BindingFlags.Public | BindingFlags.Static).GetValue(null, null);
+                _CLS = (ConnectedLivingSpace.ICLSAddon)realCLSAddon;
             }
 
             return _CLS;
         }
+
 
         public static bool CLSInstalled
         {

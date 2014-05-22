@@ -82,7 +82,7 @@ namespace KerbalHotSeat
                          //Debug.Log("fixedDeltasInMinTimeBetweenMovements: " + fixedDeltasInMinTimeBetweenMovements + " randomValue: " + randomValue);
                          if (randomValue < 1.0)
                          {
-                             Debug.Log("Time to try to move a kerbal");
+                             //Debug.Log("Time to try to move a kerbal");
                              ChooseAndMoveAKerbal();
 
                              this.lastMovement = Planetarium.GetUniversalTime();
@@ -119,7 +119,6 @@ namespace KerbalHotSeat
                  Debug.LogWarning("Not moving kerbals as the CLS mod is not installed");
                  return;
              }
-             
 
              ICLSVessel activeVessel = CLSClient.GetCLS().Vessel;
 
