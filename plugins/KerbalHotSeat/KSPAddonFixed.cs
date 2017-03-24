@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
- 
+#if false
 /// <summary>
 /// KSPAddon with equality checking using an additional type parameter. Fixes the issue where AddonLoader prevents multiple start-once addons with the same start scene.
 /// </summary>
@@ -35,3 +35,4 @@ internal class KSPAddonFixedKHS : KSPAddon, IEquatable<KSPAddonFixedKHS>
         return this.startup.GetHashCode() ^ this.once.GetHashCode() ^ this.type.GetHashCode();
     }
 }
+#endif

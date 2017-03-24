@@ -8,7 +8,8 @@ using ConnectedLivingSpace;
 namespace KerbalHotSeat
 {
 
-    [KSPAddonFixedKHS(KSPAddon.Startup.Flight, false, typeof(KHSAddon))]
+//    [KSPAddonFixedKHS(KSPAddon.Startup.Flight, false, typeof(KHSAddon))]
+    [KSPAddon(KSPAddon.Startup.Flight, false)]
     public class KHSAddon : MonoBehaviour
     {
         // A struct to hold the combination of a part and a seat within it.
@@ -25,7 +26,11 @@ namespace KerbalHotSeat
 
         private double lastBurn = 0;
         private double lastMovement = 0;
-        private double minTimeBetweenMovements = 300; 
+#if DEBUG
+        private double minTimeBetweenMovements = 30;
+#else
+        private double minTimeBetweenMovements = 300;
+#endif
         private System.Random random; // Random number generator
         private bool refreshPortraitsPending = false;
         
