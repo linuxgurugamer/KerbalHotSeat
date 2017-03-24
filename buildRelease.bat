@@ -49,13 +49,11 @@ if "%build%" NEQ "0"  set VERSION=%VERSION%.%build%
 echo Version:  %VERSION%
 rem copy /Y README.md GameData\FuseBox
  
- pause
- @echo on
 xcopy /y /s  "%H%\GameData\ConnectedLivingSpace"  GameData\ConnectedLivingSpace
-pause
+ 
 
 set FILE="%RELEASEDIR%\KerbalHotSeat-%VERSION%.zip"
 IF EXIST %FILE% del /F %FILE%
 %ZIP% a -tzip %FILE% GameData
 
-pause
+ 
