@@ -2,3 +2,8 @@
 	Adoption by Linuxgurugamer
 	Disabled KSPAddonFixed, as not needed in current codebase.  Apparently there used to be an issue  where AddonLoader prevented multiple start-once addons with the same start scene.
 	Added .version file
+1.0.3.2
+	Recompiled using correct profile
+
+1.0.4
+		Updated for 1.3
