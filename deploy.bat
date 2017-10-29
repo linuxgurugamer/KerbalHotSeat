@@ -10,4 +10,3 @@ copy /Y KerbalHotSeat.version GameData\KerbalHotSeat
 
 cd GameData
 xcopy /y /s /i KerbalHotSeat "%H%\GameData\KerbalHotSeat"
-pause
