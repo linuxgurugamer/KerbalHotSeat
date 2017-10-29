@@ -1,9 +1,9 @@
 
 @echo off
 
-set H=R:\KSP_1.2.2_dev
+set H=R:\KSP_1.3.1_dev
 
-copy /Y "plugins\KerbalHotSeat\bin\Release\KerbalHotSeat.dll" "GameData\KerbalHotSeat\Plugins"
+copy /Y "KerbalHotSeat\bin\Release\KerbalHotSeat.dll" "GameData\KerbalHotSeat\Plugins"
 copy /Y KerbalHotSeat.version GameData\KerbalHotSeat
 copy /Y ..\MiniAVC.dll GameData\KerbalHotSeat
 
@@ -31,11 +31,11 @@ if "%build%" NEQ "0"  set VERSION=%VERSION%.%build%
 echo Version:  %VERSION%
 rem copy /Y README.md GameData\FuseBox
  
-xcopy /y /s  "%H%\GameData\ConnectedLivingSpace"  GameData\ConnectedLivingSpace
+xcopy /y /s /i "%H%\GameData\ConnectedLivingSpace"  GameData\ConnectedLivingSpace
  
 
 set FILE="%RELEASEDIR%\KerbalHotSeat-%VERSION%.zip"
 IF EXIST %FILE% del /F %FILE%
 %ZIP% a -tzip %FILE% GameData
 
- 
+ pause
