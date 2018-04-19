@@ -1,15 +1,30 @@
 {
   "NAME": "KerbalHotSeat",
-  "URL": "http://ksp-avc.cybutek.net/version.php?id=456",
+  "URL": "https://raw.githubusercontent.com/linuxgurugamer/KerbalHotSeat/master/KerbalHotSeat.version",
+  "DOWNLOAD": "https://github.com/linuxgurugamer/KerbalHotSeat/releases",
+  "GITHUB": {
+    "USERNAME": "linuxgurugamer",
+    "REPOSITORY": "KerbalSlingshotter"
+  },
   "VERSION": {
     "MAJOR": 1,
     "MINOR": 0,
     "PATCH": 5,
-    "BUILD": 2
+    "BUILD": 3
   },
   "KSP_VERSION": {
     "MAJOR": 1,
-    "MINOR": 3,
+    "MINOR": 4,
     "PATCH": 1
+  },
+  "KSP_VERSION_MIN": {
+    "MAJOR": 1,
+    "MINOR": 4,
+    "PATCH": 1
+  },
+  "KSP_VERSION_MAX": {
+    "MAJOR": 1,
+    "MINOR": 4,
+    "PATCH": 99
   }
 }
