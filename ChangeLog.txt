@@ -19,3 +19,7 @@
 
 1.0.5.4
 	Updated for KSP 1.8/1.9
+
+1.0.5.5
+	Added AssemblyFileVersion
+	Updated version file for 1.12
